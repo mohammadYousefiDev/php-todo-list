@@ -14,7 +14,16 @@ if( isset($_POST['task']) ) {
 
 if( isset($_GET['status']) ) {
   $id = $_GET['id'];
-  $query = "UPDATE todo SET todo.done=1 WHERE todo.id='$id'";
+  
+  switch($_GET['status']){
+    case 'done':
+      $query = "UPDATE todo SET todo.done=1 WHERE todo.id='$id'";
+      break;
+    case 'delete':
+      $query = "DELETE FROM todo WHERE todo.id='$id'";
+      break;
+  }
+  
   $done = mysqli_query($con, $query);
 }
 ?>
@@ -30,8 +39,7 @@ if( isset($_GET['status']) ) {
   <div class="col-md-6 mx-auto mt-5">
     <form action="" method="post" autocomplete="off">
       <div class="mb-3">
-        <label for="task" class="form-label">Enter Task</label>
-        <input required type="text" name="task" class="form-control" name id="task" placeholder="">
+        <input autofocus required type="text" name="task" class="form-control" name id="task" placeholder="write a task ...">
         <?php 
           if(isset($seccessAdded)) {
             echo '<div class="mt-3 alert alert-success" role="alert"> Task added successfully. </div>';
@@ -39,12 +47,12 @@ if( isset($_GET['status']) ) {
         ?>
       </div>
       <div class="mb-3">
-        <button type="submit" class="btn btn-primary mb-3">Save</button>
+        <button type="submit" class="btn btn-primary mb-3">Add</button>
       </div>
     </form>
     
     <?php 
-    $results = mysqli_query($con, "SELECT * FROM todo ORDER BY `date` DESC");
+    $results = mysqli_query($con, "SELECT * FROM todo ORDER BY `date` ASC");
     ?>
 
     <table class="table">
@@ -58,15 +66,18 @@ if( isset($_GET['status']) ) {
       </thead>
       <tbody>
       <?php 
+      $num = 1;
       while( $row = mysqli_fetch_array($results) ):
         echo '<tr>';
-          echo '<th scope="row">'.$row["id"].'</th>';
+          echo '<th scope="row">'.$num.'</th>';
           echo '<td>'.$row["todo"].'</td>';
           echo '<td>'.date('m/d/Y', $row["date"]).'</td>';
           echo '<td>'; 
             echo ($row["done"]==0) ? '<a href="?id='.$row["id"].'&status=done">Done</a>' : '';
+            echo ' <a class="text-danger mx-2 d-inline-block" href="?id='.$row["id"].'&status=delete">Delete</a>';
           echo '</td>';
         echo '</tr>';
+        $num++;
       endwhile;
       ?>
       </tbody>
