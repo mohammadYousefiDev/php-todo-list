@@ -1,31 +1,6 @@
 <?php
 include("dbconnect.php");
-
-if( isset($_POST['task']) ) {
-  $task = $_POST['task'];
-  $date = time();
-
-  $query = "INSERT INTO todo (todo, date, done) VALUES ('$task', '$date', '0')";
-  $done = mysqli_query($con, $query);
-  if( $done ) {
-    $seccessAdded = 1;
-  }
-}
-
-if( isset($_GET['status']) ) {
-  $id = $_GET['id'];
-  
-  switch($_GET['status']){
-    case 'done':
-      $query = "UPDATE todo SET todo.done=1 WHERE todo.id='$id'";
-      break;
-    case 'delete':
-      $query = "DELETE FROM todo WHERE todo.id='$id'";
-      break;
-  }
-  
-  $done = mysqli_query($con, $query);
-}
+include("controller.php");
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -52,9 +27,10 @@ if( isset($_GET['status']) ) {
     </form>
     
     <?php 
-    $results = mysqli_query($con, "SELECT * FROM todo ORDER BY `date` ASC");
+    $results = mysqli_query($con, "SELECT * FROM todo WHERE todo.done=0 ORDER BY `date` ASC");
+    $results1 = mysqli_query($con, "SELECT * FROM todo WHERE todo.done=1 ORDER BY `date` ASC");
     ?>
-
+    <h3>Todos: </h3>
     <table class="table">
       <thead>
         <tr>
@@ -68,6 +44,36 @@ if( isset($_GET['status']) ) {
       <?php 
       $num = 1;
       while( $row = mysqli_fetch_array($results) ):
+        echo '<tr>';
+          echo '<th scope="row">'.$num.'</th>';
+          echo '<td>'.$row["todo"].'</td>';
+          echo '<td>'.date('m/d/Y', $row["date"]).'</td>';
+          echo '<td>'; 
+            echo ($row["done"]==0) ? '<a href="?id='.$row["id"].'&status=done">Done</a>' : '';
+            echo ' <a class="text-danger mx-2 d-inline-block" href="?id='.$row["id"].'&status=delete">Delete</a>';
+          echo '</td>';
+        echo '</tr>';
+        $num++;
+      endwhile;
+      ?>
+      </tbody>
+    </table>
+
+    <br />
+    <h3>Done: </h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Todo</th>
+          <th scope="col">Date</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+      <?php 
+      $num = 1;
+      while( $row = mysqli_fetch_array($results1) ):
         echo '<tr>';
           echo '<th scope="row">'.$num.'</th>';
           echo '<td>'.$row["todo"].'</td>';
