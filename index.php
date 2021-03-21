@@ -11,6 +11,12 @@ if( isset($_POST['task']) ) {
     $seccessAdded = 1;
   }
 }
+
+if( isset($_GET['status']) ) {
+  $id = $_GET['id'];
+  $query = "UPDATE todo SET todo.done=1 WHERE todo.id='$id'";
+  $done = mysqli_query($con, $query);
+}
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -37,6 +43,9 @@ if( isset($_POST['task']) ) {
       </div>
     </form>
     
+    <?php 
+    $results = mysqli_query($con, "SELECT * FROM todo ORDER BY `date` DESC");
+    ?>
 
     <table class="table">
       <thead>
@@ -44,27 +53,22 @@ if( isset($_POST['task']) ) {
           <th scope="col">#</th>
           <th scope="col">Todo</th>
           <th scope="col">Date</th>
-          <th scope="col">Status</th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td colspan="2">Larry the Bird</td>
-          <td>@twitter</td>
-        </tr>
+      <?php 
+      while( $row = mysqli_fetch_array($results) ):
+        echo '<tr>';
+          echo '<th scope="row">'.$row["id"].'</th>';
+          echo '<td>'.$row["todo"].'</td>';
+          echo '<td>'.date('m/d/Y', $row["date"]).'</td>';
+          echo '<td>'; 
+            echo ($row["done"]==0) ? '<a href="?id='.$row["id"].'&status=done">Done</a>' : '';
+          echo '</td>';
+        echo '</tr>';
+      endwhile;
+      ?>
       </tbody>
     </table>
   </div>
