@@ -14,8 +14,8 @@
       echo "Done</p>";
 
       echo "<p>2. Creating table... <br/>";
-      $query1 = "CREATE TABLE IF NOT EXISTS `todo` (`id` int(11) NOT NULL AUTO_INCREMENT, `desc` varchar(200) NOT NULL, `date` date NOT NULL, `done` int(11) NOT NULL, PRIMARY KEY (`id`))";
-      $x = mysqli_query($con, $query1);
+      $query = "CREATE TABLE IF NOT EXISTS `todo` (`id` int(11) NOT NULL AUTO_INCREMENT, `todo` varchar(200) NOT NULL, `date` varchar(200) NOT NULL, `done` int(11) NOT NULL, PRIMARY KEY (`id`))";
+      $x = mysqli_query($con, $query);
 
       if($x==1){
         echo "Done <p>";
