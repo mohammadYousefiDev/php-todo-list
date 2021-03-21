@@ -31,7 +31,7 @@ include("controller.php");
     $results1 = mysqli_query($con, "SELECT * FROM todo WHERE todo.done=1 ORDER BY `date` ASC");
     ?>
     <h3>Todos: </h3>
-    <table class="table">
+    <table class="table table-striped">
       <thead>
         <tr>
           <th scope="col">#</th>
@@ -61,7 +61,7 @@ include("controller.php");
 
     <br />
     <h3>Done: </h3>
-    <table class="table">
+    <table class="table table-striped">
       <thead>
         <tr>
           <th scope="col">#</th>
