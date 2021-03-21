@@ -28,7 +28,7 @@ if( isset($_GET['status']) ) {
   <body>
 
   <div class="col-md-6 mx-auto mt-5">
-    <form action="" method="post">
+    <form action="" method="post" autocomplete="off">
       <div class="mb-3">
         <label for="task" class="form-label">Enter Task</label>
         <input required type="text" name="task" class="form-control" name id="task" placeholder="">
