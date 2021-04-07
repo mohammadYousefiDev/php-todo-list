@@ -18,9 +18,9 @@ function doneTodos()
       echo '<td>'.$row["todo"].'</td>';
       echo '<td>'.date('m/d/Y', $row["date"]).'</td>';
       echo '<td>'; 
-        echo '<a href="?id='.$row["id"].'&status=return">Return</a>';
+        echo '<a href="?id='.$row["id"].'&action=return">Return</a>';
         echo ' &nbsp;<a href="?id='.$row["id"].'&action=edit&todo='.$row["todo"].'" class="text-success">Edit</a>';
-        echo ' <a class="text-danger mx-2 d-inline-block" href="?id='.$row["id"].'&status=delete">Delete</a>';
+        echo ' <a class="text-danger mx-2 d-inline-block" href="?id='.$row["id"].'&action=delete">Delete</a>';
       echo '</td>';
     echo '</tr>';
     $num++;
@@ -39,9 +39,9 @@ function todos()
       echo '<td>'.$row["todo"].'</td>';
       echo '<td>'.date('m/d/Y', $row["date"]).'</td>';
       echo '<td>'; 
-        echo ($row["done"]==0) ? '<a href="?id='.$row["id"].'&status=done">Done</a>' : '';
+        echo ($row["done"]==0) ? '<a href="?id='.$row["id"].'&action=done">Done</a>' : '';
         echo ' &nbsp;<a href="?id='.$row["id"].'&action=edit&todo='.$row["todo"].'" class="text-success">Edit</a>';
-        echo ' <a class="text-danger mx-2 d-inline-block" href="?id='.$row["id"].'&status=delete">Delete</a>';
+        echo ' <a class="text-danger mx-2 d-inline-block" href="?id='.$row["id"].'&action=delete">Delete</a>';
       echo '</td>';
     echo '</tr>';
     $num++;
