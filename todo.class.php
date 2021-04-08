@@ -3,10 +3,23 @@ class Todo
 {
   private $db;
 
-  function __construct($con){
+  /**
+  * Class constructor
+  * 
+  * @author mohammad
+  * @param string $con
+  */
+  function __construct($con) 
+  {
       $this->db = $con;
   }
 
+  /**
+  * Add new todo
+  * 
+  * @author mohammad
+  * @param string $task
+  */
   public function add_todo($task) 
   {
     $date = time();
@@ -15,45 +28,75 @@ class Todo
     $this->run_query($query);
   }
 
+  /**
+  * Delete todo
+  * 
+  * @author mohammad
+  * @param int $id
+  */
   public function delete_todo($id)
   {
     $query = "DELETE FROM todo WHERE todo.id='$id'";
     $this->run_query($query);
   }
 
+  /**
+  * Return todo to undone
+  * 
+  * @author mohammad
+  * @param int $id
+  */
   public function return_todo($id)
   {
     $now = time();
 
     $data = [ 'done' => 0, 'date' => $now ];
     $where = [ 'id' => $id ];
-    $query = $this->update_sql_query($data, $where, $table='todo');
 
-    $this->run_query($query);
+    $this->update_sql_query($data, $where, $table='todo');
   }
 
+  /**
+  * Done todo
+  * 
+  * @author mohammad
+  * @param int $id
+  */
   public function done_todo($id)
   {
     $now = time();
 
     $data = [ 'done' => 1, 'date' => $now ];
     $where = [ 'id' => $id ];
-    $query = $this->update_sql_query($data, $where, $table='todo');
 
-    $this->run_query($query);
+    $this->update_sql_query($data, $where, $table='todo');
   }
 
+  /**
+  * Update todo
+  * 
+  * @author mohammad
+  * @param int $id
+  * @param string $task
+  */
   public function update_todo($id, $task)
   {
     $task = $_POST['task'];
 
     $data = [ 'todo' => $task ];
     $where = [ 'id' => $id ];
-    $query = $this->update_sql_query($data, $where, $table='todo');
 
-    $this->run_query($query);
+    $this->update_sql_query($data, $where, $table='todo');
   }
 
+  /**
+  * Sql query and run for todo update
+  * 
+  * @author mohammad
+  * @param array $data
+  * @param array $where
+  * @param string $table
+  */
   public function update_sql_query($data, $where, $table='todo') 
   {
     $cols = [];
@@ -66,11 +109,17 @@ class Todo
       $wheres[] = $table.".$key = '$val'";
     }
 
-    $sql = "UPDATE $table SET " . implode(', ', $cols) . " WHERE " . implode(', ', $wheres);
+    $query = "UPDATE $table SET " . implode(', ', $cols) . " WHERE " . implode(', ', $wheres);
  
-    return($sql);
+    $this->run_query($query);
   }
 
+  /**
+  * Run sql query and header to home
+  * 
+  * @author mohammad
+  * @param string $query
+  */
   private function run_query($query) 
   {
     mysqli_query($this->db, $query);
