@@ -1,7 +1,6 @@
 <?php
-include("dbconnect.php");
+include("todo.class.php");
 include("controller.php");
-include("functions.php");
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -34,7 +33,7 @@ include("functions.php");
         </tr>
       </thead>
       <tbody>
-      <?php Todos(); ?>
+      <?php $todo->todos(); ?>
       </tbody>
     </table>
 
@@ -50,7 +49,7 @@ include("functions.php");
         </tr>
       </thead>
       <tbody>
-      <?php doneTodos(); ?>
+      <?php $todo->doneTodos(); ?>
       </tbody>
     </table>
   </div>

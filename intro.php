@@ -13,7 +13,7 @@
 
     <p>
     1. First of all create a database and user.<br/>
-    2. Next go to config.php file and insert them. <br/>
+    2. Next go to todo.class file and insert details them in class const. <br/>
     3. Next go to youraddress/install.php address to create table.<br/><br/>
     Now everything is ok. go home and insert your tasks and do them.
     </p>

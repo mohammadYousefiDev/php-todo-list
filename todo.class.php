@@ -3,15 +3,24 @@ class Todo
 {
   private $db;
 
+  const DATABASE = 'php_todo';
+  const USERNAME = 'root';
+  const PASSWORD = '';
+
   /**
   * Class constructor
   * 
   * @author mohammad
   * @param string $con
   */
-  function __construct($con) 
+  function __construct() 
   {
-      $this->db = $con;
+    $this->db = mysqli_connect("localhost", self::USERNAME, self::PASSWORD, self::DATABASE);
+
+    if( ! $this->db ) {
+        echo "Error connecting to MySQL <br>";
+        exit;
+    }
   }
 
   /**
@@ -123,6 +132,79 @@ class Todo
   private function run_query($query) 
   {
     mysqli_query($this->db, $query);
-    header("location:/todo");
+    $this->redirect("/todo");
   }
+
+  /**
+  * Show done todos
+  * 
+  * @author mohammad
+  */
+  public function doneTodos()
+  {
+    $query = "SELECT * FROM todo WHERE todo.done=1 ORDER BY `date` ASC";
+    $doneTodos = $this->run_query_return($query);
+
+    $num = 1;
+    while( $row = mysqli_fetch_array($doneTodos) ):
+      echo '<tr>';
+        echo '<th scope="row">'.$num.'</th>';
+        echo '<td>'.$row["todo"].'</td>';
+        echo '<td>'.date('m/d/Y', $row["date"]).'</td>';
+        echo '<td>'; 
+          echo '<a href="?id='.$row["id"].'&action=return">Return</a>';
+          echo ' &nbsp;<a href="?id='.$row["id"].'&action=edit&todo='.$row["todo"].'" class="text-success">Edit</a>';
+          echo ' <a class="text-danger mx-2 d-inline-block" href="?id='.$row["id"].'&action=delete">Delete</a>';
+        echo '</td>';
+      echo '</tr>';
+      $num++;
+    endwhile;
+  }
+
+  /**
+  * Show todos
+  * 
+  * @author mohammad
+  */
+  public function todos() 
+  {
+    $query = "SELECT * FROM todo WHERE todo.done=0 ORDER BY `date` ASC";
+    $todos = $this->run_query_return($query);
+
+    $num = 1;
+    while( $row = mysqli_fetch_array($todos) ):
+      echo '<tr>';
+        echo '<th scope="row">'.$num.'</th>';
+        echo '<td>'.$row["todo"].'</td>';
+        echo '<td>'.date('m/d/Y', $row["date"]).'</td>';
+        echo '<td>'; 
+          echo ($row["done"]==0) ? '<a href="?id='.$row["id"].'&action=done">Done</a>' : '';
+          echo ' &nbsp;<a href="?id='.$row["id"].'&action=edit&todo='.$row["todo"].'" class="text-success">Edit</a>';
+          echo ' <a class="text-danger mx-2 d-inline-block" href="?id='.$row["id"].'&action=delete">Delete</a>';
+        echo '</td>';
+      echo '</tr>';
+      $num++;
+    endwhile;
+  }
+  
+  /**
+  * Run sql query and return result
+  * 
+  * @author mohammad
+  * @param string $query
+  */
+  private function run_query_return($query) 
+  {
+    return mysqli_query($this->db, $query);
+  }
+
+  /**
+	 * Simple redirect function.
+	 * @param string $url optional
+	 */
+	public function redirect($url='') {
+		header('Location: '.$url);
+	}
 }
+
+$todo = new Todo();
