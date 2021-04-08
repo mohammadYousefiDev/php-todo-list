@@ -1,6 +1,6 @@
 # php todo list
 
-This is a simple todo list in php oop/mysql.
+php oop mysql todo list
 
 <ul class="p-3 mb-0">
   <li>Add todo</li>
