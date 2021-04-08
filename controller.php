@@ -10,21 +10,19 @@ if( isset($_GET['action']) )
   {
     case 'delete':
       $todo->delete_todo( $id );
+      break;
     case 'return':
       $todo->return_todo( $id );
+      break;
     case 'done':
       $todo->done_todo( $id );
+      break;
   }
 }
-  
 
 if( isset($_POST['updateLast']) ) {
   $task = $_POST['task'];
-  $date = time();
   $id = $_POST['task_id'];
 
-  $query = "UPDATE todo SET todo.todo='$task' WHERE todo.id='$id'";
-  $done = mysqli_query($con, $query);
-
-  header("location:/todo");
+  $todo->update_todo( $id, $task );
 }
