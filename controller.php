@@ -20,7 +20,8 @@ if( isset($_GET['action']) )
   }
 }
 
-if( isset($_POST['updateLast']) ) {
+if( isset($_POST['updateLast']) ) 
+{
   $task = $_POST['task'];
   $id = $_POST['task_id'];
 
