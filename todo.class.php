@@ -160,8 +160,7 @@ class Todo
   */
   public function doneTodos()
   {
-    $query = "SELECT * FROM todo WHERE todo.done=1 ORDER BY `date` ASC";
-    $doneTodos = $this->run_query_return($query);
+    $doneTodos = $this->select_todo(1);
 
     $num = 1;
     while( $row = mysqli_fetch_array($doneTodos) ):
@@ -179,6 +178,19 @@ class Todo
     endwhile;
   }
 
+  private function select_todo($done=0)
+  {
+    $query = "SELECT * FROM todo WHERE todo.done='$done' ORDER BY `date` ASC";
+    $run_select = $this->run_query_return($query);
+
+    if(!$run_select) {
+      echo '<h1>Please follow intro.php file instructions ...</h1>';
+      exit;
+    }
+
+    return $run_select;
+  }
+
   /**
   * Show todos
   * 
@@ -186,8 +198,7 @@ class Todo
   */
   public function todos() 
   {
-    $query = "SELECT * FROM todo WHERE todo.done=0 ORDER BY `date` ASC";
-    $todos = $this->run_query_return($query);
+    $todos = $this->select_todo(0);
 
     $num = 1;
     while( $row = mysqli_fetch_array($todos) ):
