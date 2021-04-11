@@ -24,35 +24,11 @@ include("controller.php");
     </form>
   
     <h3 class="mt-4">Todos: </h3>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Task</th>
-          <th scope="col">Date</th>
-          <th scope="col">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-      <?php $todo->show_todo(); ?>
-      </tbody>
-    </table>
+    <?php $todo->show_todo(); ?>
 
     <br />
     <h3>Done: </h3>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Task</th>
-          <th scope="col">Date</th>
-          <th scope="col">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-      <?php $todo->show_todo(1); ?>
-      </tbody>
-    </table>
+    <?php $todo->show_todo(1); ?>
   </div>
   
 

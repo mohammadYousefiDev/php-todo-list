@@ -181,22 +181,34 @@ class Todo
   public function show_todo($done=0) 
   {
     $todos = $this->select_todo($done);
-
-    $num = 1;
-    while( $row = mysqli_fetch_array($todos) ):
-      echo '<tr>';
-        echo '<th scope="row">'.$num.'</th>';
-        echo '<td>'.$row["todo"].'</td>';
-        echo '<td>'.date('m/d/Y', $row["date"]).'</td>';
-        echo '<td>';
-          $name = ($done==0) ? 'Done': 'Return';
-          echo '<a href="?id='.$row["id"].'&action='.$name.'">'.$name.'</a>';
-          echo ' &nbsp;<a href="?id='.$row["id"].'&action=edit&todo='.$row["todo"].'" class="text-success">Edit</a>';
-          echo ' <a class="text-danger mx-2 d-inline-block" href="?id='.$row["id"].'&action=delete">Delete</a>';
-        echo '</td>';
-      echo '</tr>';
-      $num++;
-    endwhile;
+    
+    echo '<table class="table table-striped">';
+      echo '<thead>';
+        echo '<tr>';
+          echo '<th scope="col">#</th>';
+          echo '<th scope="col">Task</th>';
+          echo '<th scope="col">Date</th>';
+          echo '<th scope="col">Actions</th>';
+        echo '</tr>';
+      echo '</thead>';
+      echo '<tbody>';
+          $num = 1;
+          while( $row = mysqli_fetch_array($todos) ):
+            echo '<tr>';
+              echo '<th scope="row">'.$num.'</th>';
+              echo '<td>'.$row["todo"].'</td>';
+              echo '<td>'.date('m/d/Y', $row["date"]).'</td>';
+              echo '<td>';
+                $name = ($done==0) ? 'Done': 'Return';
+                echo '<a href="?id='.$row["id"].'&action='.$name.'">'.$name.'</a>';
+                echo ' &nbsp;<a href="?id='.$row["id"].'&action=edit&todo='.$row["todo"].'" class="text-success">Edit</a>';
+                echo ' <a class="text-danger mx-2 d-inline-block" href="?id='.$row["id"].'&action=delete">Delete</a>';
+              echo '</td>';
+            echo '</tr>';
+            $num++;
+          endwhile;
+        echo '</tbody>';
+      echo '</table>';
   }
   
   /**
