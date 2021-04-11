@@ -7,6 +7,8 @@ class Todo
   const USERNAME = 'root';
   const PASSWORD = '';
 
+  public $root;
+
   /**
   * Class constructor
   * 
@@ -18,6 +20,8 @@ class Todo
     $this->db = mysqli_connect("localhost", self::USERNAME, self::PASSWORD, self::DATABASE);
 
     if( ! $this->db ) exit;
+
+    $this->root = $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
   }
 
   /**
@@ -31,7 +35,7 @@ class Todo
     $query = "CREATE TABLE IF NOT EXISTS `todo` (`id` int(11) NOT NULL AUTO_INCREMENT, `todo` varchar(200) NOT NULL, `date` varchar(200) NOT NULL, `done` int(11) NOT NULL, PRIMARY KEY (`id`))";
     $run = mysqli_query($this->db, $query);
     if($run)
-      echo 'Done<p><a href="/todo">Go to home</a></p>';
+      echo 'Done<p><a href="'.$this->root_url().'">Go to home</a></p>';
   }
 
   /**
@@ -143,7 +147,7 @@ class Todo
   private function run_query($query) 
   {
     mysqli_query($this->db, $query);
-    $this->redirect("/todo");
+    $this->redirect($_SERVER['REQUEST_URI']);
   }
 
   /**
@@ -210,11 +214,31 @@ class Todo
   }
 
   /**
-	 * Simple redirect function.
+  * Root url
+  * 
+  * @author mohammad
+  * @param string $query
+  */
+  private function root_url() 
+  {
+    $protocol = (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS'] == 'on')) ? 'https://' : 'http://';
+    $url = $_SERVER['REQUEST_URI']; //returns the current URL
+    $parts = explode('/',$url);
+    $dir = $_SERVER['SERVER_NAME'];
+    for ($i = 0; $i < count($parts) - 1; $i++) {
+      $dir .= $parts[$i] . "/";
+    }
+    return $protocol.$dir;
+  }
+
+  /**
+	 * Redirect to home.
 	 * @param string $url optional
 	 */
-	public function redirect($url='') {
-		header('Location: '.$url);
+	public function redirect() 
+  {
+		header('Location: '.$this->root_url());
+    exit;
 	}
 }
 
