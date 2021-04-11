@@ -34,7 +34,7 @@ include("controller.php");
         </tr>
       </thead>
       <tbody>
-      <?php $todo->todos(); ?>
+      <?php $todo->show_todo(); ?>
       </tbody>
     </table>
 
@@ -50,7 +50,7 @@ include("controller.php");
         </tr>
       </thead>
       <tbody>
-      <?php $todo->doneTodos(); ?>
+      <?php $todo->show_todo(1); ?>
       </tbody>
     </table>
   </div>

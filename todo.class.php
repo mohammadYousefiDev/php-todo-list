@@ -154,30 +154,11 @@ class Todo
   }
 
   /**
-  * Show done todos
+  * Select todo
   * 
   * @author mohammad
+  * @param string $done
   */
-  public function doneTodos()
-  {
-    $doneTodos = $this->select_todo(1);
-
-    $num = 1;
-    while( $row = mysqli_fetch_array($doneTodos) ):
-      echo '<tr>';
-        echo '<th scope="row">'.$num.'</th>';
-        echo '<td>'.$row["todo"].'</td>';
-        echo '<td>'.date('m/d/Y', $row["date"]).'</td>';
-        echo '<td>'; 
-          echo '<a href="?id='.$row["id"].'&action=return">Return</a>';
-          echo ' &nbsp;<a href="?id='.$row["id"].'&action=edit&todo='.$row["todo"].'" class="text-success">Edit</a>';
-          echo ' <a class="text-danger mx-2 d-inline-block" href="?id='.$row["id"].'&action=delete">Delete</a>';
-        echo '</td>';
-      echo '</tr>';
-      $num++;
-    endwhile;
-  }
-
   private function select_todo($done=0)
   {
     $query = "SELECT * FROM todo WHERE todo.done='$done' ORDER BY `date` ASC";
@@ -192,13 +173,14 @@ class Todo
   }
 
   /**
-  * Show todos
+  * Show todo
   * 
   * @author mohammad
+  * @param string $done
   */
-  public function todos() 
+  public function show_todo($done=0) 
   {
-    $todos = $this->select_todo(0);
+    $todos = $this->select_todo($done);
 
     $num = 1;
     while( $row = mysqli_fetch_array($todos) ):
@@ -206,8 +188,9 @@ class Todo
         echo '<th scope="row">'.$num.'</th>';
         echo '<td>'.$row["todo"].'</td>';
         echo '<td>'.date('m/d/Y', $row["date"]).'</td>';
-        echo '<td>'; 
-          echo ($row["done"]==0) ? '<a href="?id='.$row["id"].'&action=done">Done</a>' : '';
+        echo '<td>';
+          $name = ($done==0) ? 'Done': 'Return';
+          echo '<a href="?id='.$row["id"].'&action='.$name.'">'.$name.'</a>';
           echo ' &nbsp;<a href="?id='.$row["id"].'&action=edit&todo='.$row["todo"].'" class="text-success">Edit</a>';
           echo ' <a class="text-danger mx-2 d-inline-block" href="?id='.$row["id"].'&action=delete">Delete</a>';
         echo '</td>';
@@ -236,7 +219,7 @@ class Todo
   private function root_url() 
   {
     $protocol = (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS'] == 'on')) ? 'https://' : 'http://';
-    $url = $_SERVER['REQUEST_URI']; //returns the current URL
+    $url = $_SERVER['REQUEST_URI'];
     $parts = explode('/',$url);
     $dir = $_SERVER['SERVER_NAME'];
     for ($i = 0; $i < count($parts) - 1; $i++) {

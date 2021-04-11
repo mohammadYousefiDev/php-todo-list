@@ -11,10 +11,10 @@ if( isset($_GET['action']) )
     case 'delete':
       $todo->delete_todo( $id );
       break;
-    case 'return':
+    case 'Return':
       $todo->return_todo( $id );
       break;
-    case 'done':
+    case 'Done':
       $todo->done_todo( $id );
       break;
   }
