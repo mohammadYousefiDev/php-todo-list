@@ -15,7 +15,7 @@
     <p>
     1. First of all create a database and user.<br/>
     2. Next go to todo.class file and insert details in class constants. <br/>
-    3. Next go to youraddress/install.php address to create table.<br/><br/>
+    3. Next go to youraddress/install address to create table.<br/><br/>
     </p>
 
     <br/>
