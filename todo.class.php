@@ -19,7 +19,10 @@ class Todo
   {
     $this->db = mysqli_connect("localhost", self::USERNAME, self::PASSWORD, self::DATABASE);
 
-    if( ! $this->db ) exit;
+    if( ! $this->db ){
+      echo '<h1>Please follow intro.php file instructions ...</h1>';
+      exit;
+    } 
 
     $this->root = $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
   }
