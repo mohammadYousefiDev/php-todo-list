@@ -7,11 +7,12 @@ include("controller.php");
   <head>
     <title>PHP Todo-list</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link href="css/style.css" rel="stylesheet" />
   </head>
 
   <body>
 
-  <div class="col-md-5 mx-auto mt-5">
+  <div class="col-md-5 p-5 rounded bg-white mx-auto mt-5">
     <form action="" class="input-group-append" method="post" autocomplete="off">
       <div class="input-group mb-3">
       <input required type="text" value="<?= isset($_GET['action']) && $_GET['action'] == 'edit' ? $_GET['todo'] : ''; ?>" name="task" class="form-control" name id="task" placeholder="write a task ...">

@@ -17,10 +17,21 @@ class Todo
   {
     $this->db = mysqli_connect("localhost", self::USERNAME, self::PASSWORD, self::DATABASE);
 
-    if( ! $this->db ) {
-        echo "Error connecting to MySQL <br>";
-        exit;
-    }
+    if( ! $this->db ) exit;
+  }
+
+  /**
+  * Add new todo
+  * 
+  * @author mohammad
+  * @param string $task
+  */
+  public function install() 
+  {
+    $query = "CREATE TABLE IF NOT EXISTS `todo` (`id` int(11) NOT NULL AUTO_INCREMENT, `todo` varchar(200) NOT NULL, `date` varchar(200) NOT NULL, `done` int(11) NOT NULL, PRIMARY KEY (`id`))";
+    $run = mysqli_query($this->db, $query);
+    if($run)
+      echo 'Done<p><a href="/todo">Go to home</a></p>';
   }
 
   /**
